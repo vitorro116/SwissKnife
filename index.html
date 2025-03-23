@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwissKnife - 110 Утилит</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Боковая панель с разделами -->
+        <div class="sidebar">
+            <h2>Разделы</h2>
+            <ul>
+                <li class="active" data-tab="file-utils">Файловый (20 утилит)</li>
+                <li data-tab="text-utils">Текстовый (20 утилит)</li>
+                <li data-tab="web-utils">Веб-утилиты (20 утилит)</li>
+                <li data-tab="calc-utils">Калькуляторы (10 утилит)</li>
+                <li data-tab="crypto-utils">Шифрование (10 утилит)</li>
+                <li data-tab="data-utils">Анализ данных (10 утилит)</li>
+                <li data-tab="dev-utils">Для разработчиков (10 утилит)</li>
+                <li data-tab="other-utils">Другие (10 утилит)</li>
+            </ul>
+        </div>
+
+        <!-- Основное содержимое -->
+        <div class="main-content">
+            <!-- Файловый раздел -->
+            <div id="file-utils" class="tab-content active">
+                <h2>Файловые утилиты</h2>
+                <div class="utility">
+                    <h3>1. Переименование файлов</h3>
+                    <input type="text" id="rename-pattern" placeholder="Новый шаблон имени">
+                    <button onclick="renameFiles()">Переименовать</button>
+                </div>
+                <div class="utility">
+                    <h3>2. Поиск дубликатов</h3>
+                    <button onclick="findDuplicates()">Найти дубликаты</button>
+                    <div id="duplicates-result"></div>
+                </div>
+                <div class="utility">
+                    <h3>3. Изменение расширений</h3>
+                    <input type="text" id="new-extension" placeholder="Новое расширение (например, .txt)">
+                    <button onclick="changeExtensions()">Изменить</button>
+                </div>
+                <div class="utility">
+                    <h3>4. Удаление пустых папок</h3>
+                    <button onclick="deleteEmptyFolders()">Удалить</button>
+                </div>
+                <div class="utility">
+                    <h3>5. Создание резервных копий</h3>
+                    <button onclick="createBackup()">Создать резервную копию</button>
+                </div>
+                <div class="utility">
+                    <h3>6. Объединение файлов</h3>
+                    <input type="file" id="merge-files" multiple>
+                    <button onclick="mergeFiles()">Объединить</button>
+                </div>
+                <div class="utility">
+                    <h3>7. Разделение файла</h3>
+                    <input type="file" id="split-file">
+                    <input type="number" id="split-size" placeholder="Размер части (в байтах)">
+                    <button onclick="splitFile()">Разделить</button>
+                </div>
+                <div class="utility">
+                    <h3>8. Поиск файлов по ключевым словам</h3>
+                    <input type="text" id="search-keyword" placeholder="Ключевое слово">
+                    <button onclick="searchFiles()">Найти</button>
+                </div>
+                <div class="utility">
+                    <h3>9. Генерация дерева каталогов</h3>
+                    <button onclick="generateDirectoryTree()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>10. Сортировка файлов по дате</h3>
+                    <button onclick="sortFilesByDate()">Сортировать</button>
+                </div>
+                <div class="utility">
+                    <h3>11. Архивирование файлов</h3>
+                    <input type="file" id="archive-files" multiple>
+                    <button onclick="archiveFiles()">Архивировать</button>
+                </div>
+                <div class="utility">
+                    <h3>12. Извлечение из архива</h3>
+                    <input type="file" id="extract-archive">
+                    <button onclick="extractArchive()">Извлечь</button>
+                </div>
+                <div class="utility">
+                    <h3>13. Поиск файлов по размеру</h3>
+                    <input type="number" id="file-size-min" placeholder="Минимальный размер (в байтах)">
+                    <input type="number" id="file-size-max" placeholder="Максимальный размер (в байтах)">
+                    <button onclick="searchFilesBySize()">Найти</button>
+                </div>
+                <div class="utility">
+                    <h3>14. Поиск файлов по типу</h3>
+                    <input type="text" id="file-type" placeholder="Тип файла (например, .txt)">
+                    <button onclick="searchFilesByType()">Найти</button>
+                </div>
+                <div class="utility">
+                    <h3>15. Удаление старых файлов</h3>
+                    <input type="number" id="days-old" placeholder="Количество дней">
+                    <button onclick="deleteOldFiles()">Удалить</button>
+                </div>
+                <div class="utility">
+                    <h3>16. Копирование файлов</h3>
+                    <input type="file" id="copy-files" multiple>
+                    <input type="text" id="copy-destination" placeholder="Путь назначения">
+                    <button onclick="copyFiles()">Копировать</button>
+                </div>
+                <div class="utility">
+                    <h3>17. Перемещение файлов</h3>
+                    <input type="file" id="move-files" multiple>
+                    <input type="text" id="move-destination" placeholder="Путь назначения">
+                    <button onclick="moveFiles()">Переместить</button>
+                </div>
+                <div class="utility">
+                    <h3>18. Поиск файлов по содержимому</h3>
+                    <input type="text" id="file-content" placeholder="Содержимое файла">
+                    <button onclick="searchFilesByContent()">Найти</button>
+                </div>
+                <div class="utility">
+                    <h3>19. Создание символических ссылок</h3>
+                    <input type="text" id="symlink-source" placeholder="Исходный файл">
+                    <input type="text" id="symlink-destination" placeholder="Путь назначения">
+                    <button onclick="createSymlink()">Создать</button>
+                </div>
+                <div class="utility">
+                    <h3>20. Изменение прав доступа</h3>
+                    <input type="text" id="file-permissions" placeholder="Права доступа (например, 755)">
+                    <button onclick="changePermissions()">Изменить</button>
+                </div>
+            </div>
+
+            <!-- Текстовый раздел -->
+            <div id="text-utils" class="tab-content">
+                <h2>Текстовые утилиты</h2>
+                <div class="utility">
+                    <h3>1. Подсчет слов</h3>
+                    <textarea id="text-input" placeholder="Введите текст"></textarea>
+                    <button onclick="countWords()">Подсчитать</button>
+                    <p id="word-count"></p>
+                </div>
+                <div class="utility">
+                    <h3>2. Поиск и замена текста</h3>
+                    <textarea id="find-replace-text" placeholder="Введите текст"></textarea>
+                    <input type="text" id="find-text" placeholder="Найти">
+                    <input type="text" id="replace-text" placeholder="Заменить на">
+                    <button onclick="findAndReplace()">Заменить</button>
+                </div>
+                <div class="utility">
+                    <h3>3. Удаление пустых строк</h3>
+                    <textarea id="empty-lines-text" placeholder="Введите текст"></textarea>
+                    <button onclick="removeEmptyLines()">Удалить</button>
+                </div>
+                <div class="utility">
+                    <h3>4. Конвертация регистра</h3>
+                    <textarea id="case-text" placeholder="Введите текст"></textarea>
+                    <button onclick="convertToUpper()">Верхний регистр</button>
+                    <button onclick="convertToLower()">Нижний регистр</button>
+                </div>
+                <div class="utility">
+                    <h3>5. Удаление стоп-слов</h3>
+                    <textarea id="stopwords-text" placeholder="Введите текст"></textarea>
+                    <button onclick="removeStopWords()">Удалить</button>
+                </div>
+                <div class="utility">
+                    <h3>6. Генерация Lorem Ipsum</h3>
+                    <input type="number" id="lorem-length" placeholder="Количество слов">
+                    <button onclick="generateLorem()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>7. Транслитерация текста</h3>
+                    <textarea id="translit-text" placeholder="Введите текст"></textarea>
+                    <button onclick="transliterate()">Транслитерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>8. Удаление HTML-тегов</h3>
+                    <textarea id="html-text" placeholder="Введите текст"></textarea>
+                    <button onclick="removeHtmlTags()">Удалить</button>
+                </div>
+                <div class="utility">
+                    <h3>9. Извлечение email-адресов</h3>
+                    <textarea id="email-text" placeholder="Введите текст"></textarea>
+                    <button onclick="extractEmails()">Извлечь</button>
+                </div>
+                <div class="utility">
+                    <h3>10. Извлечение URL</h3>
+                    <textarea id="url-text" placeholder="Введите текст"></textarea>
+                    <button onclick="extractUrls()">Извлечь</button>
+                </div>
+                <div class="utility">
+                    <h3>11. Подсчет символов</h3>
+                    <textarea id="char-count-text" placeholder="Введите текст"></textarea>
+                    <button onclick="countChars()">Подсчитать</button>
+                    <p id="char-count"></p>
+                </div>
+                <div class="utility">
+                    <h3>12. Подсчет строк</h3>
+                    <textarea id="line-count-text" placeholder="Введите текст"></textarea>
+                    <button onclick="countLines()">Подсчитать</button>
+                    <p id="line-count"></p>
+                </div>
+                <div class="utility">
+                    <h3>13. Генерация хэшей</h3>
+                    <textarea id="hash-text" placeholder="Введите текст"></textarea>
+                    <button onclick="generateHash('md5')">MD5</button>
+                    <button onclick="generateHash('sha256')">SHA-256</button>
+                    <p id="hash-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>14. Генерация QR-кода</h3>
+                    <textarea id="qr-text" placeholder="Введите текст"></textarea>
+                    <button onclick="generateQr()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>15. Преобразование текста в речь</h3>
+                    <textarea id="tts-text" placeholder="Введите текст"></textarea>
+                    <button onclick="textToSpeech()">Озвучить</button>
+                </div>
+                <div class="utility">
+                    <h3>16. Анализ тональности текста</h3>
+                    <textarea id="sentiment-text" placeholder="Введите текст"></textarea>
+                    <button onclick="analyzeSentiment()">Анализировать</button>
+                    <p id="sentiment-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>17. Генерация случайного текста</h3>
+                    <input type="number" id="random-text-length" placeholder="Количество слов">
+                    <button onclick="generateRandomText()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>18. Удаление дубликатов строк</h3>
+                    <textarea id="dedupe-lines-text" placeholder="Введите текст"></textarea>
+                    <button onclick="dedupeLines()">Удалить дубликаты</button>
+                </div>
+                <div class="utility">
+                    <h3>19. Сортировка строк</h3>
+                    <textarea id="sort-lines-text" placeholder="Введите текст"></textarea>
+                    <button onclick="sortLines()">Сортировать</button>
+                </div>
+                <div class="utility">
+                    <h3>20. Реверс текста</h3>
+                    <textarea id="reverse-text" placeholder="Введите текст"></textarea>
+                    <button onclick="reverseText()">Реверсировать</button>
+                </div>
+            </div>
+
+            <!-- Веб-утилиты -->
+            <div id="web-utils" class="tab-content">
+                <h2>Веб-утилиты</h2>
+                <div class="utility">
+                    <h3>1. Проверка доступности сайта</h3>
+                    <input type="text" id="website-url" placeholder="Введите URL">
+                    <button onclick="checkWebsite()">Проверить</button>
+                    <p id="website-status"></p>
+                </div>
+                <div class="utility">
+                    <h3>2. Парсинг веб-страниц</h3>
+                    <input type="text" id="parse-url" placeholder="Введите URL">
+                    <button onclick="parseWebsite()">Парсить</button>
+                </div>
+                <div class="utility">
+                    <h3>3. Извлечение всех ссылок</h3>
+                    <input type="text" id="links-url" placeholder="Введите URL">
+                    <button onclick="extractLinks()">Извлечь</button>
+                </div>
+                <div class="utility">
+                    <h3>4. Генерация коротких URL</h3>
+                    <input type="text" id="shorten-url" placeholder="Введите URL">
+                    <button onclick="shortenUrl()">Сократить</button>
+                </div>
+                <div class="utility">
+                    <h3>5. Проверка SSL-сертификата</h3>
+                    <input type="text" id="ssl-url" placeholder="Введите URL">
+                    <button onclick="checkSSL()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>6. Мониторинг изменений на сайте</h3>
+                    <input type="text" id="monitor-url" placeholder="Введите URL">
+                    <button onclick="monitorWebsite()">Мониторить</button>
+                </div>
+                <div class="utility">
+                    <h3>7. Скачивание всех изображений</h3>
+                    <input type="text" id="images-url" placeholder="Введите URL">
+                    <button onclick="downloadImages()">Скачать</button>
+                </div>
+                <div class="utility">
+                    <h3>8. Автоматизация входа на сайты</h3>
+                    <input type="text" id="login-url" placeholder="Введите URL">
+                    <button onclick="autoLogin()">Войти</button>
+                </div>
+                <div class="utility">
+                    <h3>9. Проверка IP-адреса</h3>
+                    <button onclick="checkIp()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>10. Генерация sitemap.xml</h3>
+                    <input type="text" id="sitemap-url" placeholder="Введите URL">
+                    <button onclick="generateSitemap()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>11. Проверка скорости загрузки сайта</h3>
+                    <input type="text" id="speed-url" placeholder="Введите URL">
+                    <button onclick="checkWebsiteSpeed()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>12. Извлечение мета-тегов</h3>
+                    <input type="text" id="meta-url" placeholder="Введите URL">
+                    <button onclick="extractMetaTags()">Извлечь</button>
+                </div>
+                <div class="utility">
+                    <h3>13. Проверка robots.txt</h3>
+                    <input type="text" id="robots-url" placeholder="Введите URL">
+                    <button onclick="checkRobotsTxt()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>14. Проверка DNS-записей</h3>
+                    <input type="text" id="dns-url" placeholder="Введите домен">
+                    <button onclick="checkDnsRecords()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>15. Проверка WHOIS</h3>
+                    <input type="text" id="whois-url" placeholder="Введите домен">
+                    <button onclick="checkWhois()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>16. Проверка HTTP-заголовков</h3>
+                    <input type="text" id="headers-url" placeholder="Введите URL">
+                    <button onclick="checkHttpHeaders()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>17. Проверка SSL-сертификата</h3>
+                    <input type="text" id="ssl-check-url" placeholder="Введите URL">
+                    <button onclick="checkSslCertificate()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>18. Проверка доступности портов</h3>
+                    <input type="text" id="port-url" placeholder="Введите URL">
+                    <input type="number" id="port-number" placeholder="Номер порта">
+                    <button onclick="checkPortAvailability()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>19. Проверка редиректов</h3>
+                    <input type="text" id="redirect-url" placeholder="Введите URL">
+                    <button onclick="checkRedirects()">Проверить</button>
+                </div>
+                <div class="utility">
+                    <h3>20. Проверка доступности API</h3>
+                    <input type="text" id="api-url" placeholder="Введите URL API">
+                    <button onclick="checkApiAvailability()">Проверить</button>
+                </div>
+            </div>
+
+            <!-- Калькуляторы -->
+            <div id="calc-utils" class="tab-content">
+                <h2>Калькуляторы</h2>
+                <div class="utility">
+                    <h3>1. Простой калькулятор</h3>
+                    <input type="text" id="calc-input" placeholder="Введите выражение">
+                    <button onclick="calculate()">Вычислить</button>
+                    <p id="calc-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>2. Научный калькулятор</h3>
+                    <input type="text" id="sci-calc-input" placeholder="Введите выражение">
+                    <button onclick="scientificCalculate()">Вычислить</button>
+                    <p id="sci-calc-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>3. Конвертер валют</h3>
+                    <input type="number" id="currency-amount" placeholder="Сумма">
+                    <select id="currency-from">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="RUB">RUB</option>
+                    </select>
+                    <select id="currency-to">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="RUB">RUB</option>
+                    </select>
+                    <button onclick="convertCurrency()">Конвертировать</button>
+                    <p id="currency-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>4. Конвертер единиц измерения</h3>
+                    <input type="number" id="unit-value" placeholder="Значение">
+                    <select id="unit-from">
+                        <option value="km">Километры</option>
+                        <option value="m">Метры</option>
+                        <option value="cm">Сантиметры</option>
+                    </select>
+                    <select id="unit-to">
+                        <option value="km">Километры</option>
+                        <option value="m">Метры</option>
+                        <option value="cm">Сантиметры</option>
+                    </select>
+                    <button onclick="convertUnits()">Конвертировать</button>
+                    <p id="unit-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>5. Генератор случайных чисел</h3>
+                    <input type="number" id="random-min" placeholder="Минимум">
+                    <input type="number" id="random-max" placeholder="Максимум">
+                    <button onclick="generateRandom()">Сгенерировать</button>
+                    <p id="random-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>6. Калькулятор процентов</h3>
+                    <input type="number" id="percent-value" placeholder="Значение">
+                    <input type="number" id="percent-percent" placeholder="Процент">
+                    <button onclick="calculatePercent()">Вычислить</button>
+                    <p id="percent-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>7. Калькулятор площади</h3>
+                    <input type="number" id="area-length" placeholder="Длина">
+                    <input type="number" id="area-width" placeholder="Ширина">
+                    <button onclick="calculateArea()">Вычислить</button>
+                    <p id="area-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>8. Калькулятор объема</h3>
+                    <input type="number" id="volume-length" placeholder="Длина">
+                    <input type="number" id="volume-width" placeholder="Ширина">
+                    <input type="number" id="volume-height" placeholder="Высота">
+                    <button onclick="calculateVolume()">Вычислить</button>
+                    <p id="volume-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>9. Калькулятор времени</h3>
+                    <input type="number" id="time-hours" placeholder="Часы">
+                    <input type="number" id="time-minutes" placeholder="Минуты">
+                    <button onclick="calculateTime()">Вычислить</button>
+                    <p id="time-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>10. Калькулятор дат</h3>
+                    <input type="date" id="date-start" placeholder="Начальная дата">
+                    <input type="date" id="date-end" placeholder="Конечная дата">
+                    <button onclick="calculateDateDifference()">Вычислить</button>
+                    <p id="date-result"></p>
+                </div>
+            </div>
+
+            <!-- Шифрование -->
+            <div id="crypto-utils" class="tab-content">
+                <h2>Шифрование</h2>
+                <div class="utility">
+                    <h3>1. Шифрование текста (AES)</h3>
+                    <textarea id="crypto-text" placeholder="Введите текст"></textarea>
+                    <button onclick="encryptText()">Зашифровать</button>
+                    <p id="crypto-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>2. Дешифрование текста (AES)</h3>
+                    <textarea id="decrypt-text" placeholder="Введите зашифрованный текст"></textarea>
+                    <button onclick="decryptText()">Дешифровать</button>
+                    <p id="decrypt-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>3. Генерация хэшей (MD5, SHA-256)</h3>
+                    <textarea id="hash-text" placeholder="Введите текст"></textarea>
+                    <button onclick="generateHash('md5')">MD5</button>
+                    <button onclick="generateHash('sha256')">SHA-256</button>
+                    <p id="hash-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>4. Генерация паролей</h3>
+                    <input type="number" id="password-length" placeholder="Длина пароля">
+                    <button onclick="generatePassword()">Сгенерировать</button>
+                    <p id="password-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>5. Проверка сложности пароля</h3>
+                    <input type="text" id="password-check" placeholder="Введите пароль">
+                    <button onclick="checkPasswordStrength()">Проверить</button>
+                    <p id="password-strength"></p>
+                </div>
+                <div class="utility">
+                    <h3>6. Шифрование файлов</h3>
+                    <input type="file" id="encrypt-file">
+                    <button onclick="encryptFile()">Зашифровать</button>
+                </div>
+                <div class="utility">
+                    <h3>7. Дешифрование файлов</h3>
+                    <input type="file" id="decrypt-file">
+                    <button onclick="decryptFile()">Дешифровать</button>
+                </div>
+                <div class="utility">
+                    <h3>8. Генерация ключей шифрования</h3>
+                    <button onclick="generateEncryptionKeys()">Сгенерировать</button>
+                    <p id="encryption-keys"></p>
+                </div>
+                <div class="utility">
+                    <h3>9. Шифрование сообщений (RSA)</h3>
+                    <textarea id="rsa-encrypt-text" placeholder="Введите текст"></textarea>
+                    <button onclick="encryptRsa()">Зашифровать</button>
+                    <p id="rsa-encrypt-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>10. Дешифрование сообщений (RSA)</h3>
+                    <textarea id="rsa-decrypt-text" placeholder="Введите зашифрованный текст"></textarea>
+                    <button onclick="decryptRsa()">Дешифровать</button>
+                    <p id="rsa-decrypt-result"></p>
+                </div>
+            </div>
+
+            <!-- Анализ данных -->
+            <div id="data-utils" class="tab-content">
+                <h2>Анализ данных</h2>
+                <div class="utility">
+                    <h3>1. Конвертация CSV в JSON</h3>
+                    <input type="file" id="csv-file" accept=".csv">
+                    <button onclick="convertCsvToJson()">Конвертировать</button>
+                    <pre id="csv-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>2. Конвертация JSON в CSV</h3>
+                    <textarea id="json-csv-input" placeholder="Введите JSON"></textarea>
+                    <button onclick="convertJsonToCsv()">Конвертировать</button>
+                    <pre id="json-csv-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>3. Анализ CSV-файлов</h3>
+                    <input type="file" id="analyze-csv" accept=".csv">
+                    <button onclick="analyzeCsv()">Анализировать</button>
+                    <pre id="analyze-csv-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>4. Генерация случайных данных</h3>
+                    <input type="number" id="random-data-count" placeholder="Количество строк">
+                    <button onclick="generateRandomData()">Сгенерировать</button>
+                    <pre id="random-data-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>5. Удаление дубликатов в данных</h3>
+                    <textarea id="dedupe-data" placeholder="Введите данные"></textarea>
+                    <button onclick="dedupeData()">Удалить дубликаты</button>
+                    <pre id="dedupe-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>6. Фильтрация данных</h3>
+                    <textarea id="filter-data" placeholder="Введите данные"></textarea>
+                    <input type="text" id="filter-condition" placeholder="Условие фильтрации">
+                    <button onclick="filterData()">Фильтровать</button>
+                    <pre id="filter-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>7. Сортировка данных</h3>
+                    <textarea id="sort-data" placeholder="Введите данные"></textarea>
+                    <button onclick="sortData()">Сортировать</button>
+                    <pre id="sort-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>8. Группировка данных</h3>
+                    <textarea id="group-data" placeholder="Введите данные"></textarea>
+                    <input type="text" id="group-by" placeholder="Группировать по">
+                    <button onclick="groupData()">Группировать</button>
+                    <pre id="group-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>9. Агрегация данных</h3>
+                    <textarea id="aggregate-data" placeholder="Введите данные"></textarea>
+                    <input type="text" id="aggregate-by" placeholder="Агрегировать по">
+                    <button onclick="aggregateData()">Агрегировать</button>
+                    <pre id="aggregate-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>10. Визуализация данных</h3>
+                    <textarea id="visualize-data" placeholder="Введите данные"></textarea>
+                    <button onclick="visualizeData()">Визуализировать</button>
+                    <canvas id="visualization"></canvas>
+                </div>
+            </div>
+
+            <!-- Для разработчиков -->
+            <div id="dev-utils" class="tab-content">
+                <h2>Для разработчиков</h2>
+                <div class="utility">
+                    <h3>1. Валидация JSON</h3>
+                    <textarea id="json-input" placeholder="Введите JSON"></textarea>
+                    <button onclick="validateJson()">Проверить</button>
+                    <p id="json-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>2. Форматирование JSON</h3>
+                    <textarea id="format-json" placeholder="Введите JSON"></textarea>
+                    <button onclick="formatJson()">Форматировать</button>
+                    <pre id="format-json-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>3. Валидация XML</h3>
+                    <textarea id="xml-input" placeholder="Введите XML"></textarea>
+                    <button onclick="validateXml()">Проверить</button>
+                    <p id="xml-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>4. Генерация случайных данных для тестов</h3>
+                    <input type="number" id="test-data-count" placeholder="Количество строк">
+                    <button onclick="generateTestData()">Сгенерировать</button>
+                    <pre id="test-data-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>5. Генерация документации</h3>
+                    <textarea id="doc-comments" placeholder="Введите комментарии"></textarea>
+                    <button onclick="generateDocs()">Сгенерировать</button>
+                    <pre id="docs-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>6. Генерация UML-диаграмм</h3>
+                    <textarea id="uml-input" placeholder="Введите данные"></textarea>
+                    <button onclick="generateUml()">Сгенерировать</button>
+                    <canvas id="uml-diagram"></canvas>
+                </div>
+                <div class="utility">
+                    <h3>7. Генерация API-документации</h3>
+                    <textarea id="api-docs-input" placeholder="Введите данные"></textarea>
+                    <button onclick="generateApiDocs()">Сгенерировать</button>
+                    <pre id="api-docs-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>8. Генерация SQL-запросов</h3>
+                    <textarea id="sql-input" placeholder="Введите данные"></textarea>
+                    <button onclick="generateSql()">Сгенерировать</button>
+                    <pre id="sql-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>9. Генерация тестовых данных</h3>
+                    <input type="number" id="test-data-count" placeholder="Количество строк">
+                    <button onclick="generateTestData()">Сгенерировать</button>
+                    <pre id="test-data-result"></pre>
+                </div>
+                <div class="utility">
+                    <h3>10. Генерация случайных API-запросов</h3>
+                    <input type="number" id="api-requests-count" placeholder="Количество запросов">
+                    <button onclick="generateApiRequests()">Сгенерировать</button>
+                    <pre id="api-requests-result"></pre>
+                </div>
+            </div>
+
+            <!-- Другие утилиты -->
+            <div id="other-utils" class="tab-content">
+                <h2>Другие утилиты</h2>
+                <div class="utility">
+                    <h3>1. Генератор QR-кодов</h3>
+                    <input type="text" id="qr-text" placeholder="Введите текст">
+                    <button onclick="generateQr()">Сгенерировать</button>
+                </div>
+                <div class="utility">
+                    <h3>2. Конвертер цветов</h3>
+                    <input type="text" id="color-input" placeholder="Введите цвет (HEX, RGB)">
+                    <button onclick="convertColor()">Конвертировать</button>
+                    <p id="color-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>3. Погода</h3>
+                    <input type="text" id="weather-city" placeholder="Введите город">
+                    <button onclick="getWeather()">Получить погоду</button>
+                    <p id="weather-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>4. Переводчик текста</h3>
+                    <textarea id="translate-text" placeholder="Введите текст"></textarea>
+                    <button onclick="translateText()">Перевести</button>
+                    <p id="translate-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>5. Генератор Lorem Ipsum</h3>
+                    <input type="number" id="lorem-length" placeholder="Количество слов">
+                    <button onclick="generateLorem()">Сгенерировать</button>
+                    <p id="lorem-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>6. Генератор случайных чисел</h3>
+                    <input type="number" id="random-min" placeholder="Минимум">
+                    <input type="number" id="random-max" placeholder="Максимум">
+                    <button onclick="generateRandom()">Сгенерировать</button>
+                    <p id="random-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>7. Генератор паролей</h3>
+                    <input type="number" id="password-length" placeholder="Длина пароля">
+                    <button onclick="generatePassword()">Сгенерировать</button>
+                    <p id="password-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>8. Генератор UUID</h3>
+                    <button onclick="generateUuid()">Сгенерировать</button>
+                    <p id="uuid-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>9. Генератор хэшей</h3>
+                    <textarea id="hash-text" placeholder="Введите текст"></textarea>
+                    <button onclick="generateHash('md5')">MD5</button>
+                    <button onclick="generateHash('sha256')">SHA-256</button>
+                    <p id="hash-result"></p>
+                </div>
+                <div class="utility">
+                    <h3>10. Генератор случайных данных</h3>
+                    <input type="number" id="random-data-count" placeholder="Количество строк">
+                    <button onclick="generateRandomData()">Сгенерировать</button>
+                    <pre id="random-data-result"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
